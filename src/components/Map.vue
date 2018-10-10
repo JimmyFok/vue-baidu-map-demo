@@ -1,12 +1,12 @@
 <template>
   <div >
-    <baidu-map class="map" :center="dingwei" :zoom="12" @click="tar">
+    <baidu-map class="map" :center="points[0].pos" :zoom="12" @click="tar">
       <!-- 单点 -->
       <bm-marker       
         :position="item.pos" 
         :dragging="true" 
         @click="infoShow" 
-        v-for="(item,index) in distances"
+        v-for="(item,index) in points"
         :key="index"            
         >    
         <bm-label
@@ -46,7 +46,6 @@ export default {
     return {
       show: false,       
       showContent: "我是展示数据",
-      dingwei: {lng: 113.95494, lat: 22.551919},    
       points:[ 
         {
           pos: {lng: 114.021199, lat: 22.552821}, 
@@ -67,21 +66,26 @@ export default {
     }  
   },  
   computed:{  
-    distances: function(){
-      let arr =[];
-      let len = this.points.length;
-      for(let i =0 ;i< len ;i++){        
-        this.points[i].dis = Math.sqrt((this.points[i].pos.lng - this.dingwei.lng)**2 + (this.points[i].pos.lat- this.dingwei.lat)**2) 
-      }       
-      this.quickSort(this.points)
-      console.log(this.points)
-      return this.points; 
-    },
+    // distances: function(){
+    //   let arr =[];
+    //   let len = this.points.length;
+    //   console.log(this.points)
+    //   console.log(dingwei)
+    //   for(let i =0 ;i< len ;i++){        
+    //     this.points[i].dis = Math.sqrt((this.points[i].pos.lng - dingwei.lng)**2 + (this.points[i].pos.lat- dingwei.lat)**2) 
+    //   }       
+    //   this.quickSort(this.points)
+    //   console.log(this.points)
+    //   return this.points; 
+    // },
   },
-  beforeMount: function(){
+  created: function(){
       var map = new BMap.Map("allmap");   
       var point = new BMap.Point(113.95494,22.551919);
       map.centerAndZoom(point,12);   
+      
+      let points = this.points;
+      let quickSort = this.quickSort;
 
       var geolocation = new BMap.Geolocation();
       // 开启SDK辅助定位
@@ -92,26 +96,39 @@ export default {
           map.addOverlay(mk);
           map.panTo(r.point); // 这里是定位跳转
           // alert('您的位置：'+r.point.lng+','+r.point.lat); 
+
+          // 給变量复制后，留待加载时再赋予过去
           dingwei = {
             lng: r.point.lng,
             lat: r.point.lat
-          }          
+          }         
+          console.log(points)
+          console.log(dingwei)
+          
+          let arr =[];
+          let len = points.length;
+          
+          for(let i =0 ;i< len ;i++){        
+            points[i].dis = Math.sqrt((points[i].pos.lng - dingwei.lng)**2 + (points[i].pos.lat- dingwei.lat)**2) 
+          }       
+          quickSort(points)
         }
         else {
           // alert('failed'+this.getStatus());
         }        
       });      
       // 百度地图API功能
-    },
-  mounted:function(){
-    this.$parent.chosed = {
+
+      // 給父级传参
+      this.$parent.chosed = {
           num: 1,// 获取对应的编号
           zoom: 12,// 获取对应地图放大倍数
           pos: this.points[0].pos,
           msg: this.points[0].msg,
           dis: this.points[0].dis,
       }
-  },
+
+    }, 
   
   methods: {  
     // 对比互换

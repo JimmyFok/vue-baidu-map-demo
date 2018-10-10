@@ -4,6 +4,8 @@
 
 ## Build Setup
 
+> 运行前请务必在config中的index.js设定host的值为当前的ip。
+
 ``` bash
 # install dependencies
 npm install

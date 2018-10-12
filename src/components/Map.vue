@@ -1,12 +1,13 @@
 <template>
   <div >
-    <baidu-map class="map" :center="points[0].pos" :zoom="12" @click="tar">
+    <div id="allmap"></div>
+    <baidu-map class="map" :center="points[0].pos" :zoom="12" @click="tar"  @ready="getMyPiont"> 
       <!-- 单点 -->
       <bm-marker       
         :position="item.pos" 
         :dragging="true" 
         @click="infoShow" 
-        v-for="(item,index) in points"
+        v-for="(item,index) in distances"
         :key="index"            
         >    
         <bm-label
@@ -61,31 +62,21 @@ export default {
           pos: {lng: 113.95494, lat: 22.551919}, 
           msg: "宝安分店",
           dis: '',
-        },
-      ]
+        },        
+      ],
+      distances:[]
     }  
-  },  
-  computed:{  
-    // distances: function(){
-    //   let arr =[];
-    //   let len = this.points.length;
-    //   console.log(this.points)
-    //   console.log(dingwei)
-    //   for(let i =0 ;i< len ;i++){        
-    //     this.points[i].dis = Math.sqrt((this.points[i].pos.lng - dingwei.lng)**2 + (this.points[i].pos.lat- dingwei.lat)**2) 
-    //   }       
-    //   this.quickSort(this.points)
-    //   console.log(this.points)
-    //   return this.points; 
-    // },
-  },
-  created: function(){
+  },    
+  methods: {  
+    // 获取定位
+    getMyPiont(){
       var map = new BMap.Map("allmap");   
       var point = new BMap.Point(113.95494,22.551919);
       map.centerAndZoom(point,12);   
       
       let points = this.points;
       let quickSort = this.quickSort;
+      let distances = this.distances
 
       var geolocation = new BMap.Geolocation();
       // 开启SDK辅助定位
@@ -111,7 +102,10 @@ export default {
           for(let i =0 ;i< len ;i++){        
             points[i].dis = Math.sqrt((points[i].pos.lng - dingwei.lng)**2 + (points[i].pos.lat- dingwei.lat)**2) 
           }       
-          quickSort(points)
+          quickSort(points);
+
+          distances.splice(0,0,...points)
+          console.log(distances)
         }
         else {
           // alert('failed'+this.getStatus());
@@ -129,8 +123,6 @@ export default {
       }
 
     }, 
-  
-  methods: {  
     // 对比互换
     swap(myArray, firstIndex, secondIndex){
         var temp = myArray[firstIndex];

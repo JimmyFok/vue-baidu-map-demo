@@ -3,34 +3,25 @@
     <div class="box">
       <Top :title="title"/>
       <div>
-        <Map :dw="dw"/>
+        <Search />
       </div> 
-      <div class="win"  id="allmap" >
-        <Win :chosed="chosed"/>
-      </div>        
     </div>  
 </template>
 
 <script>
 
-let dingwei;
-
 import Top from "@/components/Top";
-import Map from "@/components/Map";
-import Win from "@/components/Win";      
+import Search from "@/components/Search";
 
 export default {
-  name: "MapPage",
+  name: "SearchPage",
   data(){
     return{
-      dw: dingwei,
-      chosed: {},
-      title: "分店"
+      title: "搜索"
     }    
   },
   components: { 
-    Map,
-    Win,
+    Search,
     Top
   },
 }

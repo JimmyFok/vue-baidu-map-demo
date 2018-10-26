@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import MapPage from '@/pages/MapPage'
+import SearchPage from '@/pages/SearchPage'
 // import BaiduMap from 'vue-baidu-map'
  
 Vue.use(Router)
@@ -11,10 +12,17 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
+    {      
       path: '/',
       name: 'MapPage',
-      component: MapPage
-    }
+      component: MapPage,     
+    },
+    {
+      path: '/search',
+      name: 'SearchPage',
+      component: SearchPage
+    },
+    
+    
   ]
 })

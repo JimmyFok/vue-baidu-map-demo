@@ -19,8 +19,12 @@
             backgroundColor:'transparent',
             border:0 }"
         />
-      </bm-marker>      
+      </bm-marker>  
+    <!-- <bm-view class="map"></bm-view>
+    <bm-local-search :keyword="keyword" :auto-viewport="true" :location="location"></bm-local-search> -->
     </baidu-map>
+    <!-- <label>关键词：<input v-model="keyword"></label>
+    <label>地区：<input v-model="location"></label> -->
     
   </div>  
 </template>
@@ -93,8 +97,8 @@ export default {
             lng: r.point.lng,
             lat: r.point.lat
           }         
-          console.log(points)
-          console.log(dingwei)
+          // console.log(points)
+          // console.log(dingwei)
           
           let arr =[];
           let len = points.length;
@@ -180,7 +184,6 @@ export default {
     }
   }
 }
-
 
 </script>
 

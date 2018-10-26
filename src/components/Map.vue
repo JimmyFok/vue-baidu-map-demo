@@ -34,7 +34,8 @@ import Vue from 'vue'
 import BaiduMap from 'vue-baidu-map'
 
 Vue.use(BaiduMap, {
-  ak: '7xuGNfbN2QQoGzzcGKR2UIF7v8WdfbiV'
+  // 记得更换自己的ak值
+  ak: '请输入自己的ak码'
 })
 
 let temp;

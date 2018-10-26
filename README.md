@@ -15,3 +15,7 @@ npm start dev
 
 ```
 
+## 需要设置的地方
+1、config/index.js中设置host为自己电脑的
+2、Map.vue中设置百度地图自己申请的ak码
+
